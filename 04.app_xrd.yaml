@@ -26,5 +26,3 @@ spec:
             required:
               - image
               - dns
-        required:
-          - spec

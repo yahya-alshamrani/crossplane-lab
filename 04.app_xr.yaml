@@ -1,0 +1,7 @@
+apiVersion: yahya-lab.com/v1alpha1
+kind: MyApp
+metadata: 
+  name: myapp
+spec:
+  image: cgr.dev/chainguard/nginx
+  dns: website.example.com
