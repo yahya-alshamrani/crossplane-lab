@@ -1,0 +1,32 @@
+apiVersion: apiextensions.crossplane.io/v2
+kind: CompositeResourceDefinition
+metadata:
+  name: basics.yahya-lab.com
+spec:
+  names:
+    kind: Basic
+    plural: basics
+  scope: Namespaced
+  group: yahya-lab.com
+  versions:
+    - name: v1
+      served: true
+      referenceable: true
+      schema:
+        openAPIV3Schema:
+          type: object
+          properties:
+            spec: 
+              type: object
+              properties:
+                name:
+                  type: string
+                age:
+                  type: integer
+                  maximum: 100
+                  minimum: 14
+              required: 
+                - name
+                - age
+          required:
+            - spec

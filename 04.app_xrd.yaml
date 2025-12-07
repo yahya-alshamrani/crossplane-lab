@@ -1,0 +1,30 @@
+apiVersion: apiextensions.crossplane.io/v2
+kind: CompositeResourceDefinition
+metadata:
+  name: myapps.yahya-lab.com
+spec:
+  group: yahya-lab.com
+  names:
+    kind: MyApp
+    plural: myapps
+  scope: Namespaced
+  versions: 
+  - name: v1alpha1
+    referenceable: true
+    served: true
+    schema:
+      openAPIV3Schema:
+        description: "MyApp resouces represend a ready application with all required configuration deployed to be accessable"
+        properties:
+          spec:
+            type: object
+            properties:
+              image:
+                type: string
+              dns:
+                type: string
+            required:
+              - image
+              - dns
+        required:
+          - spec

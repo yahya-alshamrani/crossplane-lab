@@ -1,0 +1,12 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: myapp
+spec:
+  compositeTyeRef:
+    apiVersion: yahya-lab.com/v1alpha1
+    kind: MyApp
+  mode: Pipeline
+  functionRef:
+    name: crossplane-contrib-function-patch-and-transform
+  input:

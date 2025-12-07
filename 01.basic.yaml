@@ -1,0 +1,7 @@
+apiVersion: yahya-lab.com/v1
+kind: Basic
+metadata:
+  name: my-basic
+spec: 
+  name: yahya alshamrani
+  age: 69
