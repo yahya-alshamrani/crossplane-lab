@@ -56,6 +56,23 @@ spec:
               targetPort: 8080
             selector:
               app: {{ .observed.composite.resource.metadata.name }}
+          ---
+          apiVersion: gateway.networking.k8s.io/v1
+          kind: HTTPRoute
+          metadata:
+            annotations:
+              gotemplating.fn.crossplane.io/composition-resource-name: httproute
+            name: {{ .observed.composite.resource.metadata.name }}
+          spec:
+            parentRefs:
+              - name: ingress-gateway
+                namespace: kgateway-system
+            hostnames: 
+              - {{ .observed.composite.resource.spec.dns }}
+            rules:
+              - backendRefs:
+                  - name: {{ .observed.composite.resource.metadata.name }}  
+                    port: 8080
   - step: automatically-detect-ready-composed-resources
     functionRef:
       name: crossplane-contrib-function-auto-ready
