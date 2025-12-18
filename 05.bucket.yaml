@@ -1,0 +1,9 @@
+apiVersion: objectstorage.oci.upbound.io/v1alpha1
+kind: Bucket
+metadata:
+  name: bucket-via-crossplane4
+spec:
+  forProvider:
+    compartmentId: "ocid1.compartment.xxx"
+    name: bucket-via-crossplane
+    namespace: "ax50lljnvoms"
