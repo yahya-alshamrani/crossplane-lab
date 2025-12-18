@@ -18,15 +18,3 @@ metadata:
   name: oracle-provider-oci-objectstorage
 spec:
   package: ghcr.io/oracle/provider-oci-objectstorage:v0.0.2
----
-apiVersion: oci.upbound.io/v1beta1
-kind: ProviderConfig
-metadata:
-  name: default
-spec:
-  credentials:
-    source: Secret
-    secretRef:
-      name: oci-creds
-      namespace: crossplane-system
-      key: credentials

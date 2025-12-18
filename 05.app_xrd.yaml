@@ -1,0 +1,23 @@
+apiVersion: apiextensions.crossplane.io/v2
+kind: CompositeResourceDefinition
+metadata:
+  name: appinstances.yahya-lab.com
+spec:
+  group: yahya-lab.com
+  names:
+    kind: AppInstance
+    plural: appinstances
+  scope: Namespaced
+  versions: 
+  - name: v1alpha1
+    referenceable: true
+    served: true
+    schema:
+      openAPIV3Schema:
+        description: "App instance is and isntance of my app"
+        properties:
+          spec:
+            type: object
+            properties:
+              image:
+                type: string

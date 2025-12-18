@@ -1,0 +1,78 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: myapp
+spec:
+  compositeTypeRef:
+    apiVersion: yahya-lab.com/v1alpha1
+    kind: MyApp
+  mode: Pipeline
+  pipeline:
+  - step: create-application
+    functionRef:
+      name: crossplane-contrib-function-go-templating
+    input:
+      apiVersion: gotemplating.fn.crossplane.io/v1beta1
+      kind: GoTemplate
+      source: Inline
+      inline:
+        template: |
+          apiVersion: apps/v1
+          kind: Deployment
+          metadata:
+            annotations:
+              gotemplating.fn.crossplane.io/composition-resource-name: deployment
+            labels:
+              app: {{ .observed.composite.resource.metadata.name }}
+            name: {{ .observed.composite.resource.metadata.name }}
+          spec:
+            replicas: 1
+            selector:
+              matchLabels:
+                app: {{ .observed.composite.resource.metadata.name }}
+            template:
+              metadata:
+                labels:
+                  app: {{ .observed.composite.resource.metadata.name }}
+              spec:
+                containers:
+                - image: {{ .observed.composite.resource.spec.image }}
+                  name: {{ .observed.composite.resource.metadata.name }}
+                  ports:
+                  - containerPort: 8080
+          ---
+          apiVersion: v1
+          kind: Service
+          metadata:
+            annotations:
+              gotemplating.fn.crossplane.io/composition-resource-name: service
+            labels:
+              app: {{ .observed.composite.resource.metadata.name }}
+            name: {{ .observed.composite.resource.metadata.name }}
+          spec:
+            ports:
+            - port: 8080
+              protocol: TCP
+              targetPort: 8080
+            selector:
+              app: {{ .observed.composite.resource.metadata.name }}
+          ---
+          apiVersion: gateway.networking.k8s.io/v1
+          kind: HTTPRoute
+          metadata:
+            annotations:
+              gotemplating.fn.crossplane.io/composition-resource-name: httproute
+            name: {{ .observed.composite.resource.metadata.name }}
+          spec:
+            parentRefs:
+              - name: ingress-gateway
+                namespace: kgateway-system
+            hostnames: 
+              - {{ .observed.composite.resource.spec.dns }}
+            rules:
+              - backendRefs:
+                  - name: {{ .observed.composite.resource.metadata.name }}  
+                    port: 8080
+  - step: automatically-detect-ready-composed-resources
+    functionRef:
+      name: crossplane-contrib-function-auto-ready

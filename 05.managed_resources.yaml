@@ -1,0 +1,22 @@
+apiVersion: identity.oci.upbound.io/v1alpha1
+kind: Compartment
+metadata:
+  name: compartment-via-crossplane1
+spec:
+  forProvider:
+    compartmentId: ""
+    description: "Compartment created via crossplane."
+    name: "compartment-via-crossplane1"
+    enableDelete : True
+  providerConfigRef:
+    name: default
+---
+apiVersion: objectstorage.oci.upbound.io/v1alpha1
+kind: Bucket
+metadata:
+  name: bucket-via-crossplane4
+spec:
+  forProvider:
+    compartmentId: ""
+    name: bucket-via-crossplane
+    namespace: ""

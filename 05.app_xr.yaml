@@ -1,0 +1,4 @@
+apiVersion: yahya-lab.com/v1alpha1
+kind: AppInstance
+metadata: 
+  name: customer-a

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Status</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 40px auto; padding: 20px; }
+        .card { border: 1px solid #ddd; border-radius: 8px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .status-ok { color: #28a745; font-weight: bold; }
+        .status-error { color: #dc3545; font-weight: bold; }
+        ul { list-style-type: none; padding: 0; }
+        li { padding: 10px; border-bottom: 1px solid #eee; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>System Dashboard</h1>
+        <hr>
+
+        {{if .IsAvailable}}
+            <p>Connection Status: <span class="status-ok">Connected</span></p>
+            <h3>Database Records:</h3>
+            <ul>
+                {{range .Items}}
+                    <li>{{.}}</li>
+                {{else}}
+                    <li>No records found in the table.</li>
+                {{end}}
+            </ul>
+        {{else}}
+            <p>Connection Status: <span class="status-error">Offline</span></p>
+            <div style="background: #f8d7da; padding: 15px; border-radius: 4px;">
+                <strong>Notice:</strong> Data currently is unavailable. Please check your database settings.
+            </div>
+        {{end}}
+    </div>
+</body>
+</html>
